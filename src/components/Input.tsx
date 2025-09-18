@@ -1,7 +1,13 @@
 import React from "react";
 import { cn } from "../utils/cn";
 
-const Input = React.forwardRef(({
+interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+    label?: string;
+    description?: string;
+    error?: string;
+}
+
+const Input = React.forwardRef<HTMLInputElement, InputProps>(({
     className,
     type = "text",
     label,
@@ -12,7 +18,7 @@ const Input = React.forwardRef(({
     ...props
 }, ref) => {
     // Generate unique ID if not provided
-    const inputId = id || `input-${Math.random()?.toString(36)?.substr(2, 9)}`;
+    const inputId = id || `input-${Math.random().toString(36).substr(2, 9)}`;
 
     // Base input classes
     const baseInputClasses = "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50";

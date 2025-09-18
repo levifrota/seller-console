@@ -1,8 +1,16 @@
+import React from 'react';
+
+type NavigationContainerProps = {
+  children: React.ReactNode;
+  className?: string;
+  responsive?: boolean;
+};
+
 const NavigationContainer = ({ 
   children, 
   className = '',
   responsive = true 
-}) => {
+}: NavigationContainerProps) => {
   return (
     <div className={`
       w-full bg-background border-b border-border

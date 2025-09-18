@@ -35,7 +35,18 @@ const buttonVariants = cva(
     }
 );
 
-const Button = React.forwardRef(({
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+    variant?: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link' | 'success' | 'warning' | 'danger';
+    size?: 'default' | 'sm' | 'lg' | 'icon' | 'xs' | 'xl';
+    asChild?: boolean;
+    loading?: boolean;
+    iconName?: string | null;
+    iconPosition?: 'left' | 'right';
+    iconSize?: number | null;
+    fullWidth?: boolean;
+}
+
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(({
     className,
     variant,
     size,
@@ -52,7 +63,7 @@ const Button = React.forwardRef(({
     const Comp = asChild ? Slot : "button";
 
     // Icon size mapping based on button size
-    const iconSizeMap = {
+    const iconSizeMap: Record<string, number> = {
         xs: 12,
         sm: 14,
         default: 16,
@@ -61,7 +72,7 @@ const Button = React.forwardRef(({
         icon: 16,
     };
 
-    const calculatedIconSize = iconSize || iconSizeMap?.[size] || 16;
+    const calculatedIconSize = iconSize || iconSizeMap[size || 'default'] || 16;
 
     // Loading spinner
     const LoadingSpinner = () => (
@@ -109,31 +120,34 @@ const Button = React.forwardRef(({
     // When asChild is true, merge icons into the child element
     if (asChild) {
         try {
-            if (!children || React.Children?.count(children) !== 1) {
+            if (!children || React.Children.count(children) !== 1) {
                 return renderFallbackButton();
             }
 
-            const child = React.Children?.only(children);
+            const child = React.Children.only(children);
 
             if (!React.isValidElement(child)) {
                 return renderFallbackButton();
             }
+
+            const childWithProps = child as React.ReactElement<{ children?: React.ReactNode; className?: string; disabled?: boolean }>;
+
             const content = (
                 <>
                     {loading && <LoadingSpinner />}
                     {iconName && iconPosition === 'left' && renderIcon()}
-                    {child?.props?.children}
+                    {childWithProps.props.children}
                     {iconName && iconPosition === 'right' && renderIcon()}
                 </>
             );
 
-            const clonedChild = React.cloneElement(child, {
+            const clonedChild = React.cloneElement(childWithProps, {
                 className: cn(
                     buttonVariants({ variant, size, className }),
                     fullWidth && "w-full",
-                    child?.props?.className
+                    childWithProps.props.className
                 ),
-                disabled: disabled || loading || child?.props?.disabled,
+                disabled: disabled || loading || childWithProps.props.disabled,
                 children: content,
             });
 

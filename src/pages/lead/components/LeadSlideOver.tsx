@@ -104,7 +104,7 @@ const LeadSlideOver = ({
     <>
       {/* Backdrop */}
       <div 
-        className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 transition-opacity"
+        className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 transition-opacity m-0"
         onClick={onClose}
       />
       {/* Slide Over Panel */}

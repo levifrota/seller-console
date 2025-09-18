@@ -7,17 +7,17 @@ const TabNavigation = ({ className = '' }) => {
   const navigationItems = [
     {
       label: 'Leads',
-      path: '/lead-management-dashboard',
+      path: '/lead',
       icon: 'Users'
     },
     {
       label: 'Opportunities',
-      path: '/opportunity-management',
+      path: '/opportunity',
       icon: 'Target'
     }
   ];
 
-  const isActive = (path) => {
+  const isActive = (path: string): boolean => {
     return location?.pathname === path;
   };
 
