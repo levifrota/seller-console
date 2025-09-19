@@ -3,6 +3,22 @@ import Button from '../../../components/Button';
 import Input from '../../../components/Input';
 import Select from '../../../components/Select';
 import Icon from '../../../components/AppIcon';
+import type { Lead } from '../../../types';
+
+interface LeadSlideOverProps {
+  lead: Lead | null;
+  isOpen: boolean;
+  onClose: () => void;
+  onSave: (updatedLead: Lead) => void;
+  onConvertToOpportunity: (lead: Lead) => void;
+  loading: boolean;
+  error: string;
+}
+
+interface ValidationErrors {
+  email?: string;
+  [key: string]: string | undefined;
+}
 
 const LeadSlideOver = ({ 
   lead, 
@@ -12,10 +28,10 @@ const LeadSlideOver = ({
   onConvertToOpportunity,
   loading,
   error 
-}) => {
-  const [editedLead, setEditedLead] = useState(lead || {});
+}: LeadSlideOverProps) => {
+  const [editedLead, setEditedLead] = useState<Lead | Record<string, any>>(lead || {});
   const [isEditing, setIsEditing] = useState(false);
-  const [validationErrors, setValidationErrors] = useState({});
+  const [validationErrors, setValidationErrors] = useState<ValidationErrors>({});
 
   useEffect(() => {
     if (lead) {
@@ -32,22 +48,22 @@ const LeadSlideOver = ({
     { value: 'unqualified', label: 'Unqualified' }
   ];
 
-  const validateEmail = (email) => {
+  const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex?.test(email);
   };
 
-  const handleInputChange = (field, value) => {
+  const handleInputChange = (field: string, value: any) => {
     setEditedLead(prev => ({ ...prev, [field]: value }));
     
     // Clear validation error when user starts typing
     if (validationErrors?.[field]) {
-      setValidationErrors(prev => ({ ...prev, [field]: '' }));
+      setValidationErrors(prev => ({ ...prev, [field]: undefined }));
     }
   };
 
   const handleSave = () => {
-    const errors = {};
+    const errors: ValidationErrors = {};
     
     // Validate email
     if (!validateEmail(editedLead?.email)) {
@@ -59,18 +75,18 @@ const LeadSlideOver = ({
       return;
     }
 
-    onSave(editedLead);
+    onSave(editedLead as Lead);
     setIsEditing(false);
   };
 
   const handleCancel = () => {
-    setEditedLead(lead);
+    setEditedLead(lead!);
     setIsEditing(false);
     setValidationErrors({});
   };
 
-  const getStatusBadge = (status) => {
-    const statusConfig = {
+  const getStatusBadge = (status: string) => {
+    const statusConfig: Record<string, { bg: string; text: string; label: string }> = {
       new: { bg: 'bg-blue-100', text: 'text-blue-800', label: 'New' },
       contacted: { bg: 'bg-yellow-100', text: 'text-yellow-800', label: 'Contacted' },
       qualified: { bg: 'bg-green-100', text: 'text-green-800', label: 'Qualified' },
@@ -86,8 +102,8 @@ const LeadSlideOver = ({
     );
   };
 
-  const getSourceIcon = (source) => {
-    const sourceIcons = {
+  const getSourceIcon = (source: string) => {
+    const sourceIcons: Record<string, string> = {
       website: 'Globe',
       email: 'Mail',
       phone: 'Phone',

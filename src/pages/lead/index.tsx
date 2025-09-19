@@ -5,12 +5,13 @@ import StatsOverview from './components/StatsOverview';
 import LeadTable from './components/LeadTable';
 import LeadSlideOver from './components/LeadSlideOver';
 import EmptyState from './components/EmptyState';
+import type { Lead } from '../../types';
 
 const LeadManagementDashboard = () => {
   // State management
-  const [leads, setLeads] = useState([]);
-  const [filteredLeads, setFilteredLeads] = useState([]);
-  const [selectedLead, setSelectedLead] = useState(null);
+  const [leads, setLeads] = useState<Lead[]>([]);
+  const [filteredLeads, setFilteredLeads] = useState<Lead[]>([]);
+  const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
   const [isSlideOverOpen, setIsSlideOverOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
@@ -21,7 +22,7 @@ const LeadManagementDashboard = () => {
   const [saveLoading, setSaveLoading] = useState(false);
 
   // Mock leads data
-  const mockLeads = [
+  const mockLeads: Lead[] = [
     {
       id: 'LD001',
       name: 'Sarah Johnson',
@@ -136,7 +137,7 @@ const LeadManagementDashboard = () => {
         await new Promise(resolve => setTimeout(resolve, 1000));
         setLeads(mockLeads);
         setError('');
-      } catch (err) {
+      } catch {
         setError('Failed to load leads. Please try again.');
       } finally {
         setLoading(false);
@@ -152,7 +153,7 @@ const LeadManagementDashboard = () => {
 
     // Apply search filter
     if (searchTerm) {
-      filtered = filtered?.filter(lead =>
+      filtered = filtered?.filter((lead: Lead) =>
         lead?.name?.toLowerCase()?.includes(searchTerm?.toLowerCase()) ||
         lead?.company?.toLowerCase()?.includes(searchTerm?.toLowerCase())
       );
@@ -160,13 +161,13 @@ const LeadManagementDashboard = () => {
 
     // Apply status filter
     if (statusFilter !== 'all') {
-      filtered = filtered?.filter(lead => lead?.status === statusFilter);
+      filtered = filtered?.filter((lead: Lead) => lead?.status === statusFilter);
     }
 
     // Apply sorting
-    filtered?.sort((a, b) => {
-      let aValue = a?.[sortBy];
-      let bValue = b?.[sortBy];
+    filtered?.sort((a: Lead, b: Lead) => {
+      let aValue: any = a?.[sortBy as keyof Lead];
+      let bValue: any = b?.[sortBy as keyof Lead];
 
       if (typeof aValue === 'string') {
         aValue = aValue?.toLowerCase();
@@ -194,7 +195,7 @@ const LeadManagementDashboard = () => {
   // Calculate lead counts for filters
   const getLeadCounts = useCallback(() => {
     const searchFiltered = searchTerm
-      ? leads?.filter(lead =>
+      ? leads?.filter((lead: Lead) =>
           lead?.name?.toLowerCase()?.includes(searchTerm?.toLowerCase()) ||
           lead?.company?.toLowerCase()?.includes(searchTerm?.toLowerCase())
         )
@@ -202,15 +203,15 @@ const LeadManagementDashboard = () => {
 
     return {
       all: searchFiltered?.length,
-      new: searchFiltered?.filter(lead => lead?.status === 'new')?.length,
-      contacted: searchFiltered?.filter(lead => lead?.status === 'contacted')?.length,
-      qualified: searchFiltered?.filter(lead => lead?.status === 'qualified')?.length,
-      unqualified: searchFiltered?.filter(lead => lead?.status === 'unqualified')?.length
+      new: searchFiltered?.filter((lead: Lead) => lead?.status === 'new')?.length,
+      contacted: searchFiltered?.filter((lead: Lead) => lead?.status === 'contacted')?.length,
+      qualified: searchFiltered?.filter((lead: Lead) => lead?.status === 'qualified')?.length,
+      unqualified: searchFiltered?.filter((lead: Lead) => lead?.status === 'unqualified')?.length
     };
   }, [leads, searchTerm]);
 
   // Event handlers
-  const handleLeadClick = (lead) => {
+  const handleLeadClick = (lead: Lead) => {
     setSelectedLead(lead);
     setIsSlideOverOpen(true);
   };
@@ -221,15 +222,15 @@ const LeadManagementDashboard = () => {
     setError('');
   };
 
-  const handleSearchChange = (value) => {
+  const handleSearchChange = (value: string) => {
     setSearchTerm(value);
   };
 
-  const handleStatusFilterChange = (status) => {
+  const handleStatusFilterChange = (status: string) => {
     setStatusFilter(status);
   };
 
-  const handleSort = (field, order) => {
+  const handleSort = (field: string, order: string) => {
     setSortBy(field);
     setSortOrder(order);
   };
@@ -239,7 +240,7 @@ const LeadManagementDashboard = () => {
     setStatusFilter('all');
   };
 
-  const handleSaveLead = async (updatedLead) => {
+  const handleSaveLead = async (updatedLead: Lead) => {
     setSaveLoading(true);
     setError('');
 
@@ -254,20 +255,20 @@ const LeadManagementDashboard = () => {
 
       // Optimistic update
       setLeads(prevLeads =>
-        prevLeads?.map(lead =>
+        prevLeads?.map((lead: Lead) =>
           lead?.id === updatedLead?.id ? updatedLead : lead
         )
       );
 
       setSelectedLead(updatedLead);
-    } catch (err) {
+    } catch (err: any) {
       setError(err?.message);
     } finally {
       setSaveLoading(false);
     }
   };
 
-  const handleConvertToOpportunity = async (lead) => {
+  const handleConvertToOpportunity = async (lead: Lead) => {
     setSaveLoading(true);
     setError('');
 
@@ -291,9 +292,9 @@ const LeadManagementDashboard = () => {
       };
 
       // Update lead status to qualified
-      const updatedLead = { ...lead, status: 'qualified' };
+      const updatedLead = { ...lead, status: 'qualified' as const };
       setLeads(prevLeads =>
-        prevLeads?.map(l => l?.id === lead?.id ? updatedLead : l)
+        prevLeads?.map((l: Lead) => l?.id === lead?.id ? updatedLead : l)
       );
 
       setSelectedLead(updatedLead);
@@ -301,7 +302,7 @@ const LeadManagementDashboard = () => {
       // Show success message (in real app, might redirect to opportunity page)
       alert(`Successfully converted lead to opportunity: ${opportunity?.name}`);
       
-    } catch (err) {
+    } catch (err: any) {
       setError(err?.message);
     } finally {
       setSaveLoading(false);

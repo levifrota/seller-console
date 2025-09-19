@@ -1,5 +1,14 @@
-import React from 'react';
 import Icon from '../../../components/AppIcon';
+import type { Lead } from '../../../types';
+
+interface LeadTableProps {
+  leads: Lead[];
+  onLeadClick: (lead: Lead) => void;
+  sortBy: string;
+  sortOrder: string;
+  onSort: (field: string, order: string) => void;
+  loading: boolean;
+}
 
 const LeadTable = ({ 
   leads, 
@@ -8,19 +17,19 @@ const LeadTable = ({
   sortOrder, 
   onSort,
   loading 
-}) => {
-  const handleSort = (field) => {
+}: LeadTableProps) => {
+  const handleSort = (field: string) => {
     const newOrder = sortBy === field && sortOrder === 'desc' ? 'asc' : 'desc';
     onSort(field, newOrder);
   };
 
-  const getSortIcon = (field) => {
+  const getSortIcon = (field: string) => {
     if (sortBy !== field) return 'ArrowUpDown';
     return sortOrder === 'desc' ? 'ArrowDown' : 'ArrowUp';
   };
 
-  const getStatusBadge = (status) => {
-    const statusConfig = {
+  const getStatusBadge = (status: string) => {
+    const statusConfig: Record<string, { bg: string; text: string; label: string }> = {
       new: { bg: 'bg-blue-100', text: 'text-blue-800', label: 'New' },
       contacted: { bg: 'bg-yellow-100', text: 'text-yellow-800', label: 'Contacted' },
       qualified: { bg: 'bg-green-100', text: 'text-green-800', label: 'Qualified' },
@@ -36,8 +45,8 @@ const LeadTable = ({
     );
   };
 
-  const getSourceIcon = (source) => {
-    const sourceIcons = {
+  const getSourceIcon = (source: string) => {
+    const sourceIcons: Record<string, string> = {
       website: 'Globe',
       email: 'Mail',
       phone: 'Phone',
@@ -107,7 +116,7 @@ const LeadTable = ({
             </tr>
           </thead>
           <tbody className="divide-y divide-border">
-            {leads?.map((lead) => (
+            {leads?.map((lead: Lead) => (
               <tr
                 key={lead?.id}
                 onClick={() => onLeadClick(lead)}
@@ -144,7 +153,7 @@ const LeadTable = ({
       </div>
       {/* Mobile Card Layout */}
       <div className="md:hidden space-y-4 p-4">
-        {leads?.map((lead) => (
+        {leads?.map((lead: Lead) => (
           <div
             key={lead?.id}
             onClick={() => onLeadClick(lead)}

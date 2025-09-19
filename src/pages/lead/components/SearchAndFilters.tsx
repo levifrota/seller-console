@@ -1,6 +1,16 @@
 import Input from '../../../components/Input';
 import Button from '../../../components/Button';
 import Icon from '../../../components/AppIcon';
+import type { LeadCounts } from '../../../types';
+
+interface SearchAndFiltersProps {
+  searchTerm: string;
+  onSearchChange: (value: string) => void;
+  statusFilter: string;
+  onStatusFilterChange: (status: string) => void;
+  onClearFilters: () => void;
+  leadCounts: LeadCounts;
+}
 
 const SearchAndFilters = ({ 
   searchTerm, 
@@ -9,7 +19,7 @@ const SearchAndFilters = ({
   onStatusFilterChange,
   onClearFilters,
   leadCounts 
-}) => {
+}: SearchAndFiltersProps) => {
   const statusOptions = [
     { value: 'all', label: 'All Leads', count: leadCounts?.all },
     { value: 'new', label: 'New', count: leadCounts?.new },

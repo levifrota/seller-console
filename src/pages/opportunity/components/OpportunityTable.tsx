@@ -3,11 +3,11 @@ import Icon from '../../../components/AppIcon';
 interface Opportunity {
   id: string;
   name: string;
-  stage: string;
-  amount: number;
+  stage?: string;
+  amount?: number;
   company: string;
-  createdAt: string;
-  leadId: string;
+  createdAt?: string;
+  leadId?: string;
 }
 
 interface SortConfig {
@@ -28,7 +28,7 @@ const OpportunityTable = ({
   onSort,
   sortConfig,
 }: OpportunityTableProps) => {
-  const formatCurrency = (amount: number) => {
+  const formatCurrency = (amount?: number) => {
     if (!amount) return '-';
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
@@ -51,7 +51,8 @@ const OpportunityTable = ({
     );
   };
 
-  const getStageColor = (stage: string) => {
+  const getStageColor = (stage?: string) => {
+    if (!stage) return 'bg-gray-100 text-gray-800';
     const stageColors: Record<string, string> = {
       Qualification: 'bg-yellow-100 text-yellow-800',
       Proposal: 'bg-blue-100 text-blue-800',
@@ -161,7 +162,7 @@ const OpportunityTable = ({
                       opportunity.stage
                     )}`}
                   >
-                    {opportunity.stage}
+                    {opportunity.stage || 'Unknown'}
                   </span>
                 </td>
                 <td className='px-6 py-4'>
@@ -176,9 +177,10 @@ const OpportunityTable = ({
                 </td>
                 <td className='px-6 py-4'>
                   <span className='text-muted-foreground text-sm'>
-                    {new Date(opportunity.createdAt).toLocaleDateString(
-                      'en-US'
-                    )}
+                    {opportunity.createdAt 
+                      ? new Date(opportunity.createdAt).toLocaleDateString('en-US')
+                      : '-'
+                    }
                   </span>
                 </td>
               </tr>
@@ -199,7 +201,7 @@ const OpportunityTable = ({
                   opportunity.stage
                 )}`}
               >
-                {opportunity.stage}
+                {opportunity.stage || 'Unknown'}
               </span>
             </div>
             <div className='space-y-1'>
@@ -218,7 +220,10 @@ const OpportunityTable = ({
               <div className='flex justify-between'>
                 <span className='text-sm text-muted-foreground'>Created:</span>
                 <span className='text-sm text-muted-foreground'>
-                  {new Date(opportunity.createdAt).toLocaleDateString('en-US')}
+                  {opportunity.createdAt 
+                    ? new Date(opportunity.createdAt).toLocaleDateString('en-US')
+                    : '-'
+                  }
                 </span>
               </div>
             </div>

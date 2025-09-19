@@ -1,13 +1,21 @@
 import Select from '../../../components/Select';
 import Button from '../../../components/Button';
 import Icon from '../../../components/AppIcon';
+import type { OpportunityFilters } from '../../../types';
 
-const OpportunityFilters = ({ 
+interface OpportunityFiltersProps {
+  filters: OpportunityFilters;
+  onFilterChange: (filterType: keyof OpportunityFilters, value: string) => void;
+  onClearFilters: () => void;
+  opportunityCount: number;
+}
+
+const OpportunityFiltersComponent = ({ 
   filters, 
   onFilterChange, 
   onClearFilters, 
   opportunityCount 
-}) => {
+}: OpportunityFiltersProps) => {
   const stageOptions = [
     { value: '', label: 'All Stages' },
     { value: 'Qualification', label: 'Qualification' },
@@ -36,7 +44,7 @@ const OpportunityFilters = ({
               placeholder="Filter by stage"
               options={stageOptions}
               value={filters?.stage}
-              onChange={(value) => onFilterChange('stage', value)}
+              onChange={(value) => onFilterChange('stage', value as string)}
               className="w-full"
             />
           </div>
@@ -45,7 +53,7 @@ const OpportunityFilters = ({
               placeholder="Filter by amount"
               options={amountRangeOptions}
               value={filters?.amountRange}
-              onChange={(value) => onFilterChange('amountRange', value)}
+              onChange={(value) => onFilterChange('amountRange', value as string)}
               className="w-full"
             />
           </div>
@@ -77,4 +85,4 @@ const OpportunityFilters = ({
   );
 };
 
-export default OpportunityFilters;
+export default OpportunityFiltersComponent;

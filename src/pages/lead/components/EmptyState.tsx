@@ -1,12 +1,19 @@
 import Button from '../../../components/Button';
 import Icon from '../../../components/AppIcon';
 
+interface EmptyStateProps {
+  type?: 'no-leads' | 'no-results' | 'loading-error';
+  searchTerm?: string;
+  statusFilter?: string;
+  onClearFilters?: () => void;
+}
+
 const EmptyState = ({ 
   type = 'no-leads',
   searchTerm = '',
   statusFilter = 'all',
   onClearFilters 
-}) => {
+}: EmptyStateProps) => {
   const getEmptyStateContent = () => {
     switch (type) {
       case 'no-results':
@@ -17,7 +24,7 @@ const EmptyState = ({
           action: {
             label: 'Clear Filters',
             onClick: onClearFilters,
-            variant: 'outline'
+            variant: 'outline' as const
           }
         };
       
@@ -37,7 +44,7 @@ const EmptyState = ({
           action: {
             label: 'Retry',
             onClick: () => window.location?.reload(),
-            variant: 'default'
+            variant: 'default' as const
           }
         };
       

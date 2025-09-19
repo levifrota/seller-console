@@ -1,14 +1,21 @@
 import Icon from '../../../components/AppIcon';
+import type { Opportunity } from '../../../types';
 
-const OpportunityStats = ({ opportunities }) => {
+interface OpportunityStatsProps {
+  opportunities: Opportunity[];
+}
+
+const OpportunityStats = ({ opportunities }: OpportunityStatsProps) => {
   const calculateStats = () => {
     const totalOpportunities = opportunities?.length;
-    const totalValue = opportunities?.reduce((sum, opp) => sum + (opp?.amount || 0), 0);
-    const wonOpportunities = opportunities?.filter(opp => opp?.stage === 'Closed Won')?.length;
+    const totalValue = opportunities?.reduce((sum: number, opp: Opportunity) => sum + (opp?.amount || 0), 0);
+    const wonOpportunities = opportunities?.filter((opp: Opportunity) => opp?.stage === 'Closed Won')?.length;
     const winRate = totalOpportunities > 0 ? (wonOpportunities / totalOpportunities) * 100 : 0;
     
-    const stageDistribution = opportunities?.reduce((acc, opp) => {
-      acc[opp.stage] = (acc?.[opp?.stage] || 0) + 1;
+    const stageDistribution = opportunities?.reduce((acc: Record<string, number>, opp: Opportunity) => {
+      if (opp.stage) {
+        acc[opp.stage] = (acc[opp.stage] || 0) + 1;
+      }
       return acc;
     }, {});
 
@@ -23,7 +30,7 @@ const OpportunityStats = ({ opportunities }) => {
 
   const stats = calculateStats();
 
-  const formatCurrency = (amount) => {
+  const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD',

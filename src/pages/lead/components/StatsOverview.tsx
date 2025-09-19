@@ -1,6 +1,12 @@
 import Icon from '../../../components/AppIcon';
+import type { Lead } from '../../../types';
 
-const StatsOverview = ({ leads, loading }) => {
+interface StatsOverviewProps {
+  leads: Lead[];
+  loading: boolean;
+}
+
+const StatsOverview = ({ leads, loading }: StatsOverviewProps) => {
   const calculateStats = () => {
     if (!leads || leads?.length === 0) {
       return {
@@ -16,12 +22,12 @@ const StatsOverview = ({ leads, loading }) => {
 
     const stats = {
       total: leads?.length,
-      new: leads?.filter(lead => lead?.status === 'new')?.length,
-      contacted: leads?.filter(lead => lead?.status === 'contacted')?.length,
-      qualified: leads?.filter(lead => lead?.status === 'qualified')?.length,
-      unqualified: leads?.filter(lead => lead?.status === 'unqualified')?.length,
-      averageScore: Math.round(leads?.reduce((sum, lead) => sum + lead?.score, 0) / leads?.length),
-      highPriority: leads?.filter(lead => lead?.score >= 80)?.length
+      new: leads?.filter((lead: Lead) => lead?.status === 'new')?.length,
+      contacted: leads?.filter((lead: Lead) => lead?.status === 'contacted')?.length,
+      qualified: leads?.filter((lead: Lead) => lead?.status === 'qualified')?.length,
+      unqualified: leads?.filter((lead: Lead) => lead?.status === 'unqualified')?.length,
+      averageScore: Math.round(leads?.reduce((sum: number, lead: Lead) => sum + lead?.score, 0) / leads?.length),
+      highPriority: leads?.filter((lead: Lead) => lead?.score >= 80)?.length
     };
 
     return stats;
