@@ -290,7 +290,7 @@ const OpportunityManagement = () => {
             </div>
             
             <div className="flex items-center gap-3">
-              <Link to="/lead-management-dashboard">
+              <Link to="/lead">
                 <Button variant="outline" iconName="ArrowLeft" iconPosition="left">
                   Back to Leads
                 </Button>

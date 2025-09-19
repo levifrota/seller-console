@@ -19,7 +19,7 @@ const SearchAndFilters = ({
   ];
 
   const getStatusButtonVariant = (status: string) => {
-    return statusFilter === status ? 'default' : 'outline';
+    return statusFilter === status ? 'bg-blue-500 text-white' : 'outline';
   };
 
   return (
@@ -57,10 +57,9 @@ const SearchAndFilters = ({
           {statusOptions?.map((option) => (
             <Button
               key={option?.value}
-              variant={getStatusButtonVariant(option?.value)}
               size="sm"
               onClick={() => onStatusFilterChange(option?.value)}
-              className="flex items-center gap-2"
+              className={`flex items-center gap-2 ${getStatusButtonVariant(option?.value)}`}
             >
               <span>{option?.label}</span>
               <span className={`

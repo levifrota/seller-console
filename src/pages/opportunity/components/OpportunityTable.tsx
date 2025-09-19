@@ -5,7 +5,7 @@ interface Opportunity {
   name: string;
   stage: string;
   amount: number;
-  accountName: string;
+  company: string;
   createdAt: string;
   leadId: string;
 }
@@ -130,11 +130,11 @@ const OpportunityTable = ({
               </th>
               <th className='px-6 py-4 text-left'>
                 <button
-                  onClick={() => onSort('accountName')}
+                  onClick={() => onSort('company')}
                   className='flex items-center gap-2 text-sm font-medium text-foreground hover:text-primary transition-smooth'
                 >
-                  Account Name
-                  {getSortIcon('accountName')}
+                  Company Name
+                  {getSortIcon('company')}
                 </button>
               </th>
               <th className='px-6 py-4 text-left'>
@@ -171,7 +171,7 @@ const OpportunityTable = ({
                 </td>
                 <td className='px-6 py-4'>
                   <span className='text-foreground'>
-                    {opportunity.accountName}
+                    {opportunity.company}
                   </span>
                 </td>
                 <td className='px-6 py-4'>
@@ -210,9 +210,9 @@ const OpportunityTable = ({
                 </span>
               </div>
               <div className='flex justify-between'>
-                <span className='text-sm text-muted-foreground'>Account:</span>
+                <span className='text-sm text-muted-foreground'>Company:</span>
                 <span className='text-sm text-foreground'>
-                  {opportunity.accountName}
+                  {opportunity.company}
                 </span>
               </div>
               <div className='flex justify-between'>

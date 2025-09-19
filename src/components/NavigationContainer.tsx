@@ -41,7 +41,7 @@ const NavigationContainer = ({
                 </div>
                 <div>
                   <h1 className="text-xl font-semibold text-foreground">
-                    LeadTriage Console
+                    Mini Seller Console
                   </h1>
                 </div>
               </div>
@@ -65,10 +65,10 @@ const NavigationContainer = ({
                 type="button"
                 className="flex items-center space-x-2 rounded-lg p-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-smooth focus:outline-none focus:ring-2 focus:ring-ring"
               >
-                <div className="h-6 w-6 rounded-full bg-primary flex items-center justify-center">
+                <div className="h-6 w-6 rounded-full bg-blue-500 text-white flex items-center justify-center">
                   <span className="text-xs font-medium text-primary-foreground">U</span>
                 </div>
-                <span className="hidden sm:block">User</span>
+                <span className="hidden sm:block text-blue-500">User</span>
               </button>
             </div>
           </div>

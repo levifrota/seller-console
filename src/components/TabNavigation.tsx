@@ -35,7 +35,7 @@ const TabNavigation = ({ className = '' }) => {
                 relative flex items-center gap-2 px-6 py-4 text-sm font-medium transition-smooth
                 hover:text-primary focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2
                 ${active 
-                  ? 'text-primary border-b-2 border-primary bg-muted/50' :'text-muted-foreground hover:text-foreground border-b-2 border-transparent'
+                  ? 'text-blue-500 border-b-2 border-primary bg-muted/50' :'text-muted-foreground hover:text-foreground border-b-2 border-transparent'
                 }
               `}
               role="tab"

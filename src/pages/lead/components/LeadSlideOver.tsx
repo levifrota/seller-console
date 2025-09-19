@@ -108,7 +108,7 @@ const LeadSlideOver = ({
         onClick={onClose}
       />
       {/* Slide Over Panel */}
-      <div className="fixed inset-y-0 right-0 z-50 w-full max-w-md bg-background shadow-elevated border-l border-border overflow-hidden">
+      <div className="fixed inset-y-0 right-0 z-50 w-full max-w-md bg-white shadow-elevated border-l border-border overflow-hidden">
         <div className="flex flex-col h-full">
           {/* Header */}
           <div className="flex items-center justify-between p-6 border-b border-border">
@@ -210,7 +210,7 @@ const LeadSlideOver = ({
                 </div>
                 <div className="w-full bg-border rounded-full h-2">
                   <div 
-                    className="bg-primary h-2 rounded-full transition-all duration-300"
+                    className="bg-blue-500 h-2 rounded-full transition-all duration-300"
                     style={{ width: `${lead?.score}%` }}
                   ></div>
                 </div>
@@ -230,7 +230,7 @@ const LeadSlideOver = ({
                   variant="default"
                   onClick={handleSave}
                   loading={loading}
-                  className="flex-1"
+                  className="flex-1 bg-blue-500 text-white"
                 >
                   Save Changes
                 </Button>
@@ -250,7 +250,7 @@ const LeadSlideOver = ({
                   onClick={() => setIsEditing(true)}
                   iconName="Edit"
                   iconPosition="left"
-                  className="w-full"
+                  className="w-full bg-blue-500 text-white"
                 >
                   Edit Lead
                 </Button>
@@ -261,7 +261,7 @@ const LeadSlideOver = ({
                   iconName="ArrowRight"
                   iconPosition="right"
                   loading={loading}
-                  className="w-full"
+                  className="w-full bg-green-500 text-white"
                 >
                   Convert to Opportunity
                 </Button>

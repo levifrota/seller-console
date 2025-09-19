@@ -34,7 +34,7 @@ const StatsOverview = ({ leads, loading }) => {
       label: 'Total Leads',
       value: stats?.total,
       icon: 'Users',
-      color: 'text-primary',
+      color: 'text-blue-500',
       bgColor: 'bg-primary/10'
     },
     {
